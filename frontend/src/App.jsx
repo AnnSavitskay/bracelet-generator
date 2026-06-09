@@ -1,10 +1,12 @@
 import { useState } from "react";
+import PatternPreview from "./components/PatternPreview";
 
 function App() {
   const [colors, setColors] = useState(["red", "blue", "white", "green", "yellow", "black"]);
   const [threads, setThreads] = useState(8);
   const [pattern, setPattern] = useState("chevron");
   const [rows, setRows] = useState([]);
+  const [states, setStates] = useState([]);
 
   async function generate() {
     const response = await fetch( "http://127.0.0.1:5000/generate", {
@@ -15,6 +17,7 @@ function App() {
       );
     const data = await response.json();
     setRows(data.rows);
+    setStates(data.states);
   }
   
   function updateColor(index, value) {
@@ -141,6 +144,12 @@ function App() {
 	      />
 	    ))}
 	</div>
+	<PatternPreview
+	  threads={threads}
+	  rows={rows}
+	  states={states}
+	  colors={colors}
+	/>
     </div>
   );
 }
